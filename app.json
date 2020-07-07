@@ -14,10 +14,6 @@
     "env": {
         "TG_BOT_TOKEN": {
             "description": "your Telegram Bot Token, from @BotFather"
-        },
-        "TG_AUTH_USERS": {
-            "description": "Telegram Users, who can get links using the RoBot",
-            "value": "ALL"
         }
     },
     "formation": {
