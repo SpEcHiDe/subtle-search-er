@@ -90,3 +90,60 @@ if (isset($update["channel_post"])) {
     catch (Exception $e) {
     }
 }
+
+
+if (isset($update["callback_query"])) {
+    $callback_query = $update["callback_query"];
+    $id = $callback_query["id"];
+    $message_from_user = $callback_query["from"];
+    $chat_id = $callback_query["from"]["id"];
+    $message = $callback_query["message"];
+    $cb_data = $callback_query["data"];
+    $message_id = $message["message_id"];
+
+    // NOTE: You should always answer,
+    // but we want different conditionals to
+    // be able to answer to differnetly
+    // (and we can only answer once),
+    // so we don't always answer here.
+    $bot->api->answerCallbackQuery(array(
+        "callback_query_id" => $id
+    ));
+    // 
+    // edit the previously sent message,
+    // to avoid the repeated clicking of buttons
+    $bot->api->editMessageText(array(
+        "chat_id" => $chat_id,
+        "message_id" => $message_id,
+        "text" => $GLOBALS["CHECKING_MESSAGE"],
+        "parse_mode" => "HTML",
+        "disable_web_page_preview" => True
+    ));
+
+    if (strpos($cb_data, "dl_") !== FALSE) {
+        // extract subtitle ID from the callback
+        $sub_id = explode("_", $cb_data)[1];
+
+        // get the subtitle to send
+        $sub_doc_params = get_sub_i($sub_id, $chat_id);
+        $sub_doc_params["reply_to_message_id"] = $message_id;
+
+        // call the API, to send the DOCument
+        $bot->api->sendDocument($sub_doc_params);
+
+        // delete the SENT document
+        @unlink($sub_doc_params["document"]);
+
+        $bot->api->deleteMessage(array(
+            "chat_id" => $chat_id,
+            "message_id" => $message_id
+        ));
+    }
+
+    else {
+        $bot->api->deleteMessage(array(
+            "chat_id" => $chat_id,
+            "message_id" => $message_id
+        ));
+    }
+}
