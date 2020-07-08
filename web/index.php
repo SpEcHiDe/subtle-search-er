@@ -139,7 +139,6 @@ if (isset($update["callback_query"])) {
 
         // get the subtitle to send
         $sub_doc_params = get_sub_i($sub_id, $chat_id);
-        file_put_contents("php://stdout", var_export($sub_doc_params, TRUE));
         $sub_doc_params["reply_to_message_id"] = $message_id;
 
         // call the API, to send the DOCument

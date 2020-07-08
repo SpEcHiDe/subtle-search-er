@@ -129,7 +129,7 @@ function get_sub_i($sub_id, $user_id) {
     
     return array(
         "chat_id" => $user_id,
-        "document" => $sub_dl_location,
+        "document" => curl_file_create($sub_dl_location),
         "caption" => $tg_message_caption,
         "parse_mode" => "HTML",
         "disable_notification" => True
