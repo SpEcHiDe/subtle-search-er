@@ -92,7 +92,13 @@ function get_sub_i($sub_id, $user_id) {
     // provided by the API, JIC..!
     $sub_legal_disclaimer = $subg_response["LEGAL"];
 
-    $sub_dl_location = __DIR__ . "/../DLS/" . $user_id . "/" . $sub_file_name;
+    $user_directory = __DIR__ . "/../DLS/" . $user_id . "/";
+    if (!is_dir($user_directory)) {
+        mkdir($user_directory);
+    }
+    // https://stackoverflow.com/a/6296865/4723940
+
+    $sub_dl_location = $user_directory . $sub_file_name;
 
     // download the file
     file_put_contents(
