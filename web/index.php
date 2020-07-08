@@ -1,4 +1,21 @@
 <?php
+/**
+ * the main webhook
+ *
+ * This file is part of 'subtle-search-er'.
+ * This is free software:
+ * you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * 'subtle-search-er' is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with 'subtle-search-er'.
+ * If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author    Shrimadhav U K <https://t.me/SpEcHlDe>
+ * @copyright 2020-2020 Shrimadhav U K <https://t.me/SpEcHlDe>
+ * @license   https://opensource.org/licenses/GPL-3.0 GPLv3
+ *
+ */
+
 require_once __DIR__ . "/config.php";
 use kyle2142\PHPBot;
 
@@ -105,6 +122,9 @@ if (isset($update["channel_post"])) {
 }
 
 
+// triggers to be handled when a button is pressed
+// 'should' happen only in PRIVATE chats,
+// but we never know :\
 if (isset($update["callback_query"])) {
     $callback_query = $update["callback_query"];
     $id = $callback_query["id"];
@@ -122,7 +142,7 @@ if (isset($update["callback_query"])) {
     $bot->api->answerCallbackQuery(array(
         "callback_query_id" => $id
     ));
-    // 
+
     // edit the previously sent message,
     // to avoid the repeated clicking of buttons
     $bot->api->editMessageText(array(
@@ -133,6 +153,8 @@ if (isset($update["callback_query"])) {
         "disable_web_page_preview" => True
     ));
 
+    // if the button containing,
+    // a particular file was clicked
     if (strpos($cb_data, "dl_") !== FALSE) {
         // extract subtitle ID from the callback
         $sub_id = explode("_", $cb_data)[1];
@@ -153,6 +175,8 @@ if (isset($update["callback_query"])) {
         ));
     }
 
+    // if the button containing,
+    // Next or Previous buttons were clicked
     else if (strpos($cb_data, "page_") !== FALSE) {
         // extract required page number from the callback
         $page_no = explode("_", $cb_data)[1];
@@ -191,6 +215,7 @@ if (isset($update["callback_query"])) {
         }
     }
 
+    // how even? :\
     else {
         $bot->api->deleteMessage(array(
             "chat_id" => $chat_id,
