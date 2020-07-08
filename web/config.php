@@ -92,9 +92,11 @@ function get_sub_i($sub_id, $user_id) {
     // provided by the API, JIC..!
     $sub_legal_disclaimer = $subg_response["LEGAL"];
 
+    $sub_dl_location = __DIR__ . "/../DLS/" . $user_id . "/" . $sub_file_name;
+
     // download the file
     file_put_contents(
-        $sub_file_name,
+        $sub_dl_location,
         file_get_contents(
             $sub_download_link
         )
@@ -108,7 +110,7 @@ function get_sub_i($sub_id, $user_id) {
     
     return array(
         "chat_id" => $user_id,
-        "document" => $sub_file_name,
+        "document" => $sub_dl_location,
         "caption" => $tg_message_caption,
         "parse_mode" => "HTML",
         "disable_notification" => True
