@@ -153,6 +153,44 @@ if (isset($update["callback_query"])) {
         ));
     }
 
+    else if (strpos($cb_data, "page_") !== FALSE) {
+        // extract required page number from the callback
+        $page_no = explode("_", $cb_data)[1];
+
+        $message_text = $message["reply_to_message"]["text"];
+
+        // search subtitles using the API
+        $reply_markup = search_srt_a(
+            $message_text,
+            $page_no
+        );
+
+        if ($reply_markup !== NULL) {
+            // edit the previously sent message,
+            // with the buttons
+            $bot->api->editMessageText(array(
+                "chat_id" => $chat_id,
+                "message_id" => $message_id,
+                "text" => $GLOBALS["MESG_DETIDE"],
+                "parse_mode" => "HTML",
+                "disable_web_page_preview" => True,
+                "reply_markup" => $reply_markup
+            ));
+        }
+
+        else {
+            // answer back saying search is not found
+            // IDEKW how even? :\
+            $bot->api->editMessageText(array(
+                "chat_id" => $chat_id,
+                "message_id" => $message_id,
+                "text" => $GLOBALS["GESM_ITEDED"],
+                "parse_mode" => "HTML",
+                "disable_web_page_preview" => True
+            ));
+        }
+    }
+
     else {
         $bot->api->deleteMessage(array(
             "chat_id" => $chat_id,

@@ -74,6 +74,22 @@ function search_srt_a($s, $p) {
     $reply_markup = NULL;
 
     if (count($reply_markup_inline_keyboard_arrey) > 0) {
+        if (count($reply_markup_inline_keyboard_arrey) > 9) {
+            if ($p != 1) {
+                $reply_markup_inline_keyboard_arrey[] = array(
+                    array(
+                        "text" => "🔙 Previous",
+                        "callback_data" => "page" . "_" . ($p - 1) . ""
+                    )      
+                );
+            }
+            $reply_markup_inline_keyboard_arrey[] = array(
+                array(
+                    "text" => "Next ➡️",
+                    "callback_data" => "page" . "_" . ($p + 1) . ""
+                )      
+            );
+        }
         $reply_markup = json_encode(array(
             "inline_keyboard" => $reply_markup_inline_keyboard_arrey
         ));
