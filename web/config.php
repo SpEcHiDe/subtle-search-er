@@ -18,10 +18,18 @@ EOM;
 
 $GLOBALS["CHECKING_MESSAGE"] = "🤔";
 
+$GLOBALS["ANSWERING_MESSAGE"] = "🧐";
+
 $GLOBALS["SAPI_BASE_URL"] = getenv("SAPI_BASE_URL");
 
 $GLOBALS["MESG_DETIDE"] = <<<EOM
 please select your required subtitle
+EOM;
+
+$GLOBALS["GESM_ITEDED"] = <<<EOM
+sorry. but i could not find subtitle matching the search query.
+
+Please try again using another search..!
 EOM;
 
 /**
@@ -63,9 +71,14 @@ function search_srt_a($s, $p) {
         );
     }
 
-    $reply_markup = json_encode(array(
-        "inline_keyboard" => $reply_markup_inline_keyboard_arrey
-    ));
+    $reply_markup = NULL;
+
+    if (count($reply_markup_inline_keyboard_arrey) > 0) {
+        $reply_markup = json_encode(array(
+            "inline_keyboard" => $reply_markup_inline_keyboard_arrey
+        ));
+    }
+
     return $reply_markup; 
 }
 

@@ -64,16 +64,29 @@ if (isset($update["message"])) {
                 1
             );
 
-            // edit the previously sent message,
-            // with the buttons
-            $bot->api->editMessageText(array(
-                "chat_id" => $chat_id,
-                "message_id" => $status_message->message_id,
-                "text" => $GLOBALS["MESG_DETIDE"],
-                "parse_mode" => "HTML",
-                "disable_web_page_preview" => True,
-                "reply_markup" => $reply_markup
-            ));
+            if ($reply_markup !== NULL) {
+                // edit the previously sent message,
+                // with the buttons
+                $bot->api->editMessageText(array(
+                    "chat_id" => $chat_id,
+                    "message_id" => $status_message->message_id,
+                    "text" => $GLOBALS["MESG_DETIDE"],
+                    "parse_mode" => "HTML",
+                    "disable_web_page_preview" => True,
+                    "reply_markup" => $reply_markup
+                ));
+            }
+
+            else {
+                // answer back saying search is not found
+                $bot->api->editMessageText(array(
+                    "chat_id" => $chat_id,
+                    "message_id" => $status_message->message_id,
+                    "text" => $GLOBALS["GESM_ITEDED"],
+                    "parse_mode" => "HTML",
+                    "disable_web_page_preview" => True
+                ));
+            }
         }
     }
 }
@@ -115,7 +128,7 @@ if (isset($update["callback_query"])) {
     $bot->api->editMessageText(array(
         "chat_id" => $chat_id,
         "message_id" => $message_id,
-        "text" => $GLOBALS["CHECKING_MESSAGE"],
+        "text" => $GLOBALS["ANSWERING_MESSAGE"],
         "parse_mode" => "HTML",
         "disable_web_page_preview" => True
     ));
@@ -126,6 +139,7 @@ if (isset($update["callback_query"])) {
 
         // get the subtitle to send
         $sub_doc_params = get_sub_i($sub_id, $chat_id);
+        file_put_contents("php://stdout", var_export($sub_doc_params, TRUE));
         $sub_doc_params["reply_to_message_id"] = $message_id;
 
         // call the API, to send the DOCument
