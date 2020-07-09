@@ -160,7 +160,7 @@ function get_sub_i($sub_id, $user_id) {
         $tg_message_caption .= "<b>Language</b>: " . $sub_language . "\n";
     }
     if (strpos($sub_file_provider_caption_s, "@") === FALSE) {
-        $tg_message_caption .= $sub_file_provider_caption_s
+        $tg_message_caption .= $sub_file_provider_caption_s;
     }
     // apparently, the LEGAL disclaimer was too LOONG
     // hence, not displaying it
