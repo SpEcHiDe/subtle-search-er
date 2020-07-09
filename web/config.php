@@ -133,6 +133,7 @@ function get_sub_i($sub_id, $user_id) {
     $sub_download_link = $GLOBALS["SAPI_BASE_URL"] . $subg_response["DL_LINK"];
     $sub_language = $subg_response["DL_LANGUAGE"];
     $sub_file_name = $subg_response["DL_SUB_NAME"];
+    $sub_file_provider_caption_s = $subg_response["SIQ"];
 
     // also, return the LEGal DISclaimer,
     // provided by the API, JIC..!
@@ -158,7 +159,12 @@ function get_sub_i($sub_id, $user_id) {
     if ($sub_language != "") {
         $tg_message_caption .= "<b>Language</b>: " . $sub_language . "\n";
     }
-    $tg_message_caption .= $sub_legal_disclaimer;
+    if (strpos($sub_file_provider_caption_s, "@") === FALSE) {
+        $tg_message_caption .= $sub_file_provider_caption_s
+    }
+    // apparently, the LEGAL disclaimer was too LOONG
+    // hence, not displaying it
+    // $tg_message_caption .= $sub_legal_disclaimer;
     
     return array(
         "chat_id" => $user_id,
