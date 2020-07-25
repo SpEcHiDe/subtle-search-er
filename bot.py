@@ -138,7 +138,7 @@ def main():
             url_path=TG_BOT_TOKEN
         )
         # https://t.me/MarieOT/22915
-        updater.bot.set_webhook(url=HEROKU_URL + Config.TG_BOT_TOKEN)
+        updater.bot.set_webhook(url=HEROKU_URL + TG_BOT_TOKEN)
     else:
         logger.info("using Long Polling")
         updater.start_polling()
