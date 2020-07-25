@@ -1,0 +1,48 @@
+{
+    "name": "Subtitle Search Bot",
+    "description": "this app does one little thing, and does it well.",
+    "keywords": [
+        "productivity",
+        "search",
+        "subtitle",
+        "srt",
+        "mappo"
+    ],
+    "website": "https://telesco.pe/SpEcHlDe",
+    "repository": "https://github.com/SpEcHiDe/subtle-search-er/tree/Python",
+    "success_url": "/",
+    "env": {
+        "TG_BOT_TOKEN": {
+            "description": "your Telegram Bot Token, from @BotFather"
+        },
+        "SUBTITLE_BASE_URL": {
+            "description": "your Subtitle Search API URL"
+        },
+        "WEBHOOK": {
+            "description": "set this to ANYTHING, if you want to enable WEBHOOK mode",
+            "value": "ANYTHING"
+        },
+        "HEROKU_URL": {
+            "description": "the URL of the Heroku application"
+        },
+        "START_MESSAGE": {
+            "description": "watch https://youtu.be/AGnF9qUrBLY to get this value"
+        },
+        "CHECKING_MESSAGE": {
+            "description": "watch https://youtu.be/AGnF9qUrBLY to get this value"
+        },
+        "NO_SUBTITLE_AVAILABLE_MESSAGE": {
+            "description": "watch https://youtu.be/AGnF9qUrBLY to get this value"
+        },
+        "ASK_FOR_SUBTITLE_B_TEXT": {
+            "description": "watch https://youtu.be/AGnF9qUrBLY to get this value"
+        }
+    },
+    "formation": {
+        "web": {
+            "quantity": 1,
+            "size": "free"
+        }
+    },
+    "image": "heroku/python"
+}
