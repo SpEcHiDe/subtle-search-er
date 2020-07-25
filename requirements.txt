@@ -1,0 +1,5 @@
+# required for Interacting with Telegram API
+python-telegram-bot
+
+# required for calling the THIRD PARTY APIs
+requests
