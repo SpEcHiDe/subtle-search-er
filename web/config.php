@@ -165,6 +165,7 @@ function get_sub_i($sub_id, $user_id) {
     // apparently, the LEGAL disclaimer was too LOONG
     // hence, not displaying it
     // $tg_message_caption .= $sub_legal_disclaimer;
+    $tg_message_caption .= "\n\nSubtitle provided by @GetSubtitleBot from @SpEcHlDe.";
     
     return array(
         "chat_id" => $user_id,
