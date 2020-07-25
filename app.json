@@ -9,7 +9,7 @@
         "mappo"
     ],
     "website": "https://telesco.pe/SpEcHlDe",
-    "repository": "https://github.com/SpEcHiDe/subtle-search-er/tree/PTB",
+    "repository": "https://github.com/SpEcHiDe/subtle-search-er/tree/PHP",
     "success_url": "/",
     "env": {
         "TG_BOT_TOKEN": {
