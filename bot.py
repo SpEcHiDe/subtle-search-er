@@ -1,6 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# This program is dedicated to the public domain under the CC0 license.
+
+# This file is part of 'subtle-search-er'.
+# This is free software:
+# you can redistribute it and/or modify it
+# under the terms of the GNU General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License,
+# or (at your option) any later version.
+#
+# 'subtle-search-er' is distributed in the hope
+# that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.
+#
+# See the GNU General Public License for more details.
+# You should have received a copy of the
+# GNU General Public License along with 'subtle-search-er'.
+# If not, see <http://www.gnu.org/licenses/>.
+
+__author__ = "Shrimadhav U K <https://t.me/SpEcHlDe>"
+__copyright__ = "2020-2020 Shrimadhav U K <https://t.me/SpEcHlDe>"
+__license__ = "https://opensource.org/licenses/GPL-3.0 GPLv3"
 
 """
 Simple Bot to reply to Telegram messages.
@@ -27,7 +48,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO
 )
-logger = logging.getLogger(__name__)
+LOGGER = logging.getLogger(__name__)
 
 SUBTITLE_BASE_URL = os.environ.get("SUBTITLE_BASE_URL")
 TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN")
@@ -39,10 +60,14 @@ CHECKING_MESSAGE = os.environ.get("CHECKING_MESSAGE")
 NO_SUBTITLE_AVAILABLE_MESSAGE = os.environ.get(
     "NO_SUBTITLE_AVAILABLE_MESSAGE"
 )
+ASK_FOR_SUBTITLE_B_TEXT = os.environ.get(
+    "ASK_FOR_SUBTITLE_B_TEXT"
+)
 
 
-# Define a few command handlers. These usually take the two arguments update and
-# context. Error handlers also receive the raised TelegramError object in error.
+# Define a few command handlers.
+# These usually take the two arguments update and context.
+# Error handlers also receive the raised TelegramError object in error.
 def start(update, context):
     """Send a message when the command /start is issued."""
     update.message.reply_text(START_MESSAGE)
@@ -51,12 +76,12 @@ def start(update, context):
 def echo(update, context):
     """Echo the user message."""
     status_message = update.message.reply_text(CHECKING_MESSAGE)
-    # logger.info(status_message)
+    # LOGGER.info(status_message)
     search_query = update.message.text
 
     request_url = f"{SUBTITLE_BASE_URL}/search/{search_query}/1"
     search_response = requests.get(request_url).json()
-    # logger.info(search_response)
+    # LOGGER.info(search_response)
 
     search_response_arrey = search_response.get("r")
 
@@ -74,7 +99,7 @@ def echo(update, context):
         )])
 
     status_message.edit_text(
-        text="please select your required subtitle",
+        text=ASK_FOR_SUBTITLE_B_TEXT,
         reply_markup=InlineKeyboardMarkup(ikeyboard)
     )
 
@@ -82,8 +107,10 @@ def echo(update, context):
 def button(update, context):
     query = update.callback_query
 
-    # CallbackQueries need to be answered, even if no notification to the user is needed
-    # Some clients may have trouble otherwise. See https://core.telegram.org/bots/api#callbackquery
+    # CallbackQueries need to be answered,
+    # even if no notification to the user is needed
+    # Some clients may have trouble otherwise.
+    # See https://core.telegram.org/bots/api#callbackquery
     query.answer()
 
     subtitle_id = query.data
@@ -131,16 +158,16 @@ def main():
 
     # Start the Bot
     if WEBHOOK:
-        logger.info("using WEBHOOKs")
+        LOGGER.info("using WEBHOOKs")
         updater.start_webhook(
             listen="0.0.0.0",
             port=PORT,
             url_path=TG_BOT_TOKEN
         )
-        # https://t.me/MarieOT/22915
+        # https://t.me/c/1186975633/22915
         updater.bot.set_webhook(url=HEROKU_URL + TG_BOT_TOKEN)
     else:
-        logger.info("using Long Polling")
+        LOGGER.info("using Long Polling")
         updater.start_polling()
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
