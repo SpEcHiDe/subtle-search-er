@@ -19,18 +19,14 @@
 # GNU General Public License along with 'subtle-search-er'.
 # If not, see <http://www.gnu.org/licenses/>.
 
-__author__ = "Shrimadhav U K <https://t.me/SpEcHlDe>"
-__copyright__ = "2020-2020 Shrimadhav U K <https://t.me/SpEcHlDe>"
-__license__ = "https://opensource.org/licenses/GPL-3.0 GPLv3"
-
 """
 Simple Bot to reply to Telegram messages.
 """
 
 import logging
 import os
-import requests
 from io import BytesIO
+import requests
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup
@@ -42,6 +38,11 @@ from telegram.ext import (
     MessageHandler,
     Filters
 )
+
+__author__ = "Shrimadhav U K <https://t.me/SpEcHlDe>"
+__copyright__ = "2020-2020 Shrimadhav U K <https://t.me/SpEcHlDe>"
+__license__ = "https://opensource.org/licenses/GPL-3.0 GPLv3"
+
 
 # Enable logging
 logging.basicConfig(
@@ -68,12 +69,12 @@ ASK_FOR_SUBTITLE_B_TEXT = os.environ.get(
 # Define a few command handlers.
 # These usually take the two arguments update and context.
 # Error handlers also receive the raised TelegramError object in error.
-def start(update, context):
+def start(update, _):
     """Send a message when the command /start is issued."""
     update.message.reply_text(START_MESSAGE)
 
 
-def echo(update, context):
+def echo(update, _):
     """Echo the user message."""
     status_message = update.message.reply_text(CHECKING_MESSAGE)
     # LOGGER.info(status_message)
@@ -104,7 +105,8 @@ def echo(update, context):
     )
 
 
-def button(update, context):
+def button(update, _):
+    """ handle the button clicks """
     query = update.callback_query
 
     # CallbackQueries need to be answered,
@@ -120,12 +122,12 @@ def button(update, context):
     request_url = f"{SUBTITLE_BASE_URL}/get/{subtitle_id}/"
     download_link_response = requests.get(request_url).json()
 
-    DL_LINK = SUBTITLE_BASE_URL + download_link_response.get("DL_LINK")
-    DL_SUB_NAME = download_link_response.get("DL_SUB_NAME")
+    download_link = SUBTITLE_BASE_URL + download_link_response.get("DL_LINK")
+    downloaded_file_name = download_link_response.get("DL_SUB_NAME")
 
-    download_content = BytesIO(requests.get(DL_LINK).content)
+    download_content = BytesIO(requests.get(download_link).content)
     # https://stackoverflow.com/a/42811024
-    download_content.name = DL_SUB_NAME
+    download_content.name = downloaded_file_name
     query.message.reply_document(
         document=download_content,
         caption=download_link_response.get("DL_LANGUAGE")
@@ -144,17 +146,17 @@ def main():
         use_context=True
     )
 
-    # Get the dispatcher to register handlers
-    dp = updater.dispatcher
-
     # on different commands - answer in Telegram
-    dp.add_handler(CommandHandler("start", start))
+    updater.dispatcher.add_handler(CommandHandler("start", start))
 
     # on noncommand i.e message - echo the message on Telegram
-    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
+    updater.dispatcher.add_handler(MessageHandler(
+        Filters.text & ~Filters.command,
+        echo
+    ))
 
     # on clicking a button
-    dp.add_handler(CallbackQueryHandler(button))
+    updater.dispatcher.add_handler(CallbackQueryHandler(button))
 
     # Start the Bot
     if WEBHOOK:
