@@ -161,7 +161,7 @@ if (isset($update["callback_query"])) {
 
         // get the subtitle to send
         $sub_doc_params = get_sub_i($sub_id, $chat_id);
-        $sub_doc_params["reply_to_message_id"] = $message["reply_to_message"]["message_id"];
+        $sub_doc_params["reply_to_message_id"] = $message_id;
 
         // call the API, to send the DOCument
         $bot->api->sendDocument($sub_doc_params);
