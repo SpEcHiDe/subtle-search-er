@@ -10,8 +10,8 @@
  * You should have received a copy of the GNU General Public License along with 'subtle-search-er'.
  * If not, see <http://www.gnu.org/licenses/>.
  *
- * @author    Shrimadhav U K <https://t.me/SpEcHlDe>
- * @copyright 2020-2020 Shrimadhav U K <https://t.me/SpEcHlDe>
+ * @author    Shrimadhav U K <https://t.me/ImJanindu>
+ * @copyright 2020 - Infinity JE <https://t.me/InfinityJE>
  * @license   https://opensource.org/licenses/GPL-3.0 GPLv3
  *
  */
@@ -22,15 +22,15 @@ $GLOBALS["TG_BOT_TOKEN"] = getenv("TG_BOT_TOKEN");
 // the message that should be displayed,
 // when the bot is started
 $GLOBALS["START_MESSAGE"] = <<<EOM
-Hi.!
+Hi 👋
 
-I'm Subtitle SearchEr Bot.
+I'm Subtitle Search Bot.
 I can provide movie / series subtitles.
 
 Type the movie / series name,
-and let me try to do the megick..!
+and let me try to do the magic 😉
 
-Subscribe ℹ️ @SpEcHlDe if you ❤️ using this bot!
+Powered by @InfinityJE & @InfJE ❤️
 EOM;
 
 $GLOBALS["CHECKING_MESSAGE"] = "🤔";
@@ -40,13 +40,13 @@ $GLOBALS["ANSWERING_MESSAGE"] = "🧐";
 $GLOBALS["SAPI_BASE_URL"] = getenv("SAPI_BASE_URL");
 
 $GLOBALS["MESG_DETIDE"] = <<<EOM
-please select your required subtitle
+Please select your required subtitle.
 EOM;
 
 $GLOBALS["GESM_ITEDED"] = <<<EOM
 sorry. but i could not find subtitle matching the search query.
 
-Please try again using another search..!
+Please try again using another search.
 EOM;
 
 /**
@@ -95,7 +95,7 @@ function search_srt_a($s, $p) {
             if ($p != 1) {
                 $reply_markup_inline_keyboard_arrey[] = array(
                     array(
-                        "text" => "🔙 Previous",
+                        "text" => "⬅️ Previous",
                         "callback_data" => "page" . "_" . ($p - 1) . ""
                     )      
                 );
@@ -165,7 +165,7 @@ function get_sub_i($sub_id, $user_id) {
     // apparently, the LEGAL disclaimer was too LOONG
     // hence, not displaying it
     // $tg_message_caption .= $sub_legal_disclaimer;
-    $tg_message_caption .= "\n\nSubtitle provided by @GetSubtitleBot from @SpEcHlDe.";
+    $tg_message_caption .= "\n\nSubtitle provided by @Get_Subtitles_bot from @ImJanindu 🇱🇰";
     
     return array(
         "chat_id" => $user_id,
